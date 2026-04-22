@@ -158,11 +158,23 @@ export default function Dashboard() {
     
     if (targetVoice) {
       utterance.voice = targetVoice;
+      window.speechSynthesis.speak(utterance);
     } else if (lang === 'kn' || lang === 'hi') {
-      setError(`Note: Your browser or operating system does not seem to have a ${lang === 'kn' ? 'Kannada' : 'Hindi'} voice installed. The speech might not work correctly.`);
+      // OS Voice missing -> Fallback to cloud TTS via audio element
+      try {
+        setError(''); // Clear previous errors
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(textToSpeak)}&tl=${lang}&client=tw-ob`;
+        const audio = new Audio(url);
+        audio.play().catch(e => {
+          console.error("Audio fallback failed", e);
+          setError(`Failed to play audio. Please install a ${lang === 'kn' ? 'Kannada' : 'Hindi'} language pack on your device.`);
+        });
+      } catch (err) {
+        window.speechSynthesis.speak(utterance);
+      }
+    } else {
+      window.speechSynthesis.speak(utterance);
     }
-
-    window.speechSynthesis.speak(utterance);
   };
 
   const handleImageUpload = (e, setter) => {
