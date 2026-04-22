@@ -149,12 +149,17 @@ export default function Dashboard() {
     if (irrigation) textToSpeak += `${t.irrigation_advice}: ${irrigation.advice}.`;
 
     const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    utterance.lang = lang === 'hi' ? 'hi-IN' : lang === 'kn' ? 'kn-IN' : 'en-US';
+    const langCode = lang === 'hi' ? 'hi-IN' : lang === 'kn' ? 'kn-IN' : 'en-US';
+    const shortCode = lang === 'hi' ? 'hi' : lang === 'kn' ? 'kn' : 'en';
+    utterance.lang = langCode;
     
     const voices = window.speechSynthesis.getVoices();
-    const targetVoice = voices.find(v => v.lang.includes(utterance.lang));
+    const targetVoice = voices.find(v => v.lang === langCode) || voices.find(v => v.lang.startsWith(shortCode));
+    
     if (targetVoice) {
       utterance.voice = targetVoice;
+    } else if (lang === 'kn' || lang === 'hi') {
+      setError(`Note: Your browser or operating system does not seem to have a ${lang === 'kn' ? 'Kannada' : 'Hindi'} voice installed. The speech might not work correctly.`);
     }
 
     window.speechSynthesis.speak(utterance);
