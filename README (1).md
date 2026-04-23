@@ -32,7 +32,7 @@ And within seconds, the app tells them:
 - ✅ **Which 2–3 crops are best** to grow right now
 - 💧 **Whether to water today** — or not
 - 🌤️ **Current weather** at their location
-- 🗣️ Results in **Hindi, Kannada, Telugu, or Tamil**
+- 🗣️ Results in ** English,Hindi, Kannada**
 - 🔊 Option to **listen** to the advice aloud (for low-literacy users)
 
 ---
@@ -99,8 +99,6 @@ AgroVision AI speaks your language. Results can be viewed and heard in:
 
 - 🇮🇳 Hindi
 - 🌿 Kannada
-- 🌾 Telugu
-- 🌻 Tamil
 - 🌐 English (default)
 
 ---
